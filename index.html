@@ -43,7 +43,7 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
-			<img src="https://i.loli.net/2021/04/22/oXRyajYJFq5S9zc.jpg" class="js-avatar">
+			<img src="https://i.loli.net/2021/04/23/XL13OnTKmRjqdiC.jpg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="/"></a></h1>
@@ -95,7 +95,7 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<img src="https://i.loli.net/2021/04/22/oXRyajYJFq5S9zc.jpg" class="js-avatar">
+				<img src="https://i.loli.net/2021/04/23/XL13OnTKmRjqdiC.jpg" class="js-avatar">
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author"></h1>
@@ -141,6 +141,88 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-二叉树简单整理" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/">二叉树简单整理</a>
+    </h1>
+  
+
+        
+        <a href="/2021/04/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/" class="archive-article-date">
+  	<time datetime="2021-04-23T03:34:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>简单整理了一下二叉树相关的知识点。顺带测试上图片上传功能。</p>
+<!-- more  -->
+<h2 id="遍历框架"><a href="#遍历框架" class="headerlink" title="遍历框架"></a>遍历框架</h2><p>​        首先先展示二叉树遍历的<strong>框架</strong>，在日常应用中只需遵循该写法即可实现前中后序的遍历。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 二叉树遍历框架 */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">traverse</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 前序遍历</span></span><br><span class="line">    traverse(root.left)</span><br><span class="line">    <span class="comment">// 中序遍历</span></span><br><span class="line">    traverse(root.right)</span><br><span class="line">    <span class="comment">// 后序遍历</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="遍历介绍"><a href="#遍历介绍" class="headerlink" title="遍历介绍"></a>遍历介绍</h2><p>二叉树遍历分为前序遍历、中序遍历、后序遍历和层序遍历。</p>
+<h3 id="1-前序遍历"><a href="#1-前序遍历" class="headerlink" title="1 前序遍历"></a>1 前序遍历</h3><p>指的是先遍历根节点，再遍历左子树，最后遍历右子树。</p>
+<h3 id="2-中序遍历"><a href="#2-中序遍历" class="headerlink" title="2 中序遍历"></a>2 中序遍历</h3><p>指的是先遍历左子树，然后遍历根节点，最后遍历右子树。</p>
+<h3 id="3-后序遍历"><a href="#3-后序遍历" class="headerlink" title="3 后序遍历"></a>3 后序遍历</h3><p>指的是先遍历左子树，然后遍历右子树，最后遍历根节点。</p>
+<h3 id="4-层序遍历"><a href="#4-层序遍历" class="headerlink" title="4 层序遍历"></a>4 层序遍历</h3><p>层序遍历即指的是将二叉树按层遍历，一般默认是从左至右，本质上是<strong>广度优先算法（BFS）</strong>，故而一般使用双端队列的方式来实现。写出标准二叉树层序遍历的代码框架：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">traverse</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root == <span class="keyword">null</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">// 初始化队列，将 root 加入队列</span></span><br><span class="line">    Queue&lt;TreeNode&gt; q = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">    q.offer(root);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!q.isEmpty()) &#123;</span><br><span class="line">        TreeNode cur = q.poll();</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 层级遍历代码位置 */</span></span><br><span class="line">        System.out.println(root.val);</span><br><span class="line">        <span class="comment">/*****************/</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.left != <span class="keyword">null</span>) &#123;</span><br><span class="line">            q.offer(cur.left);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (cur.right != <span class="keyword">null</span>) &#123;</span><br><span class="line">            q.offer(cur.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="序列化方式img"><a href="#序列化方式img" class="headerlink" title="序列化方式img"></a>序列化方式img</h2><p>序列化指的是将二叉树铺平展开，存储至字符串或队列当中。一般需要通过两种方式的遍历来存储，只有这样才能通过存储的序列来还原二叉树，如下图所示：</p>
+<img src="https://i.loli.net/2021/04/23/lz3NWXtj8aATkge.png" style="zoom: 67%;" />
+
+<img src="https://i.loli.net/2021/04/23/v3j4VIC8Hz52opN.png" style="zoom: 67%;"  />
+
+<h2 id="二叉搜索树遍历"><a href="#二叉搜索树遍历" class="headerlink" title="二叉搜索树遍历"></a>二叉搜索树遍历</h2><p>模板：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">BST</span><span class="params">(TreeNode root, <span class="keyword">int</span> target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root.val == target)</span><br><span class="line">        <span class="comment">// 找到目标，做点什么</span></span><br><span class="line">    <span class="keyword">if</span> (root.val &lt; target) </span><br><span class="line">        BST(root.right, target);</span><br><span class="line">    <span class="keyword">if</span> (root.val &gt; target)</span><br><span class="line">        BST(root.left, target);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/04/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-面经题目汇总" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
