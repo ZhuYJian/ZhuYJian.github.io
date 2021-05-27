@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2021 | ZYJ&#39;s Blog</title>
+  <title>Zynq的几个小知识点 | ZYJ&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="ZYJ&#39;s Blog">
-<meta property="og:url" content="http://example.com/archives/2021/index.html">
+  <meta name="description" content="最近老师布置了一些调研Zynq概念的任务，就简单做了个整理，以备随时查阅。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Zynq的几个小知识点">
+<meta property="og:url" content="http://example.com/2021/05/27/Zynq%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
 <meta property="og:site_name" content="ZYJ&#39;s Blog">
+<meta property="og:description" content="最近老师布置了一些调研Zynq概念的任务，就简单做了个整理，以备随时查阅。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/05/27/GLF2NTS7oJXe9m1.png">
+<meta property="og:image" content="https://i.loli.net/2021/05/27/nCcbRKo4d5ifTWQ.png">
+<meta property="article:published_time" content="2021-05-27T07:41:23.000Z">
+<meta property="article:modified_time" content="2021-05-27T07:45:41.521Z">
 <meta property="article:author" content="Zhu Yongjian">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/27/GLF2NTS7oJXe9m1.png">
   
     <link rel="alternative" href="/atom.xml" title="ZYJ&#39;s Blog" type="application/atom+xml">
   
@@ -140,157 +147,241 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Zynq的几个小知识点" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Zynq的几个小知识点
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2021" class="archive-year">2021</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/05/27/Zynq%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/" class="archive-article-date">
+
+        
+        <a href="/2021/05/27/Zynq%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/" class="archive-article-date">
   	<time datetime="2021-05-27T07:41:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-27</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/05/27/Zynq%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/">Zynq的几个小知识点</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近老师布置了一些调研Zynq概念的任务，就简单做了个整理，以备随时查阅。</p>
+<span id="more"></span>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><ol>
+<li><p>PS、PL的架构；</p>
+</li>
+<li><p>PS、PL的整合方式；</p>
+</li>
+<li><p>Zynq的架构（内核、外设）；</p>
+</li>
+<li><p>Zynq的启动过程；</p>
+</li>
+<li><p>Zynq动态加载bit。</p>
+</li>
+<li><p>概念：DDR、Flash。</p>
+</li>
+</ol>
+<h2 id="PS、PL的架构"><a href="#PS、PL的架构" class="headerlink" title="PS、PL的架构"></a>PS、PL的架构</h2><h3 id="PS架构"><a href="#PS架构" class="headerlink" title="PS架构"></a>PS架构</h3><p>PS最核心的部分为APU（应用处理单元），包含两个Cortex-A9处理器，每个处理器都包含NEON单元（128位SIMD(Single Instruction, Multiple Data,单指令、多数据)扩展结构）。</p>
+<p>APU中两个处理器之间通过共享512kb L2高速缓存实现两个处理器的数据交换。</p>
+<img src="https://i.loli.net/2021/05/27/GLF2NTS7oJXe9m1.png" />
 
-        <div class="article-info info-on-right">
-          
-          
+<p>​               </p>
+<p>APU结构框图</p>
+<p>ACP（加速器一致性端口）用于Zynq-7000 SoC内PL和APU之间的通信。PL内建的主设备可以通过该接口访问L2和OCM，同时保证存储器和CPU L1缓存的一致性。</p>
+<p>L2高速缓存是一个8路组关联结构，允许用户基于缓存行、路或主设备锁定缓存行的内容。根据地址信息所有通过L2缓存控制器的访问都能连接到DDR控制器，或者发送到PL，或者PS内的其他相关地址的从设备。</p>
+<h3 id="OCM（片上存储器）"><a href="#OCM（片上存储器）" class="headerlink" title="OCM（片上存储器）"></a>OCM（片上存储器）</h3><p>APU内：</p>
+<p>通过DAP（调试器访问端口），用户可以控制和查询所有的处理器和存储器。</p>
+<p>通过ETB（片上嵌入跟踪缓冲区）或<strong>TPIU（跟踪端口接口单元）</strong>，将来自两个处理器的32位ATB（AMBA跟踪总线）主设备和其他ATB主设备汇集在一起，产生统一的PS跟踪。</p>
+<p>所有APU到DDR的访问，需要通过L2缓存控制器进行连接。</p>
+<p>Cortex-A9中央处理器结构每个Cortex-A9的CPU能在一个周期内给出两个指令，并且以无序的方式执行。</p>
+<p>流水线采用高级取指和指令预测技术，可以避免由于存储器延迟所引起的指令的停止尔影响分支指令的执行。</p>
+<p>高速缓存</p>
+<h3 id="L1高速缓存"><a href="#L1高速缓存" class="headerlink" title="L1高速缓存"></a>L1高速缓存</h3><p>每个Cortex-9处理器都有独立的32KB L1指令高速缓存和32KB L1数据高速缓存。</p>
+<p>典型的哈佛缓存结构</p>
+<img src="https://i.loli.net/2021/05/27/nCcbRKo4d5ifTWQ.png"/>
 
+<h3 id="PL架构"><a href="#PL架构" class="headerlink" title="PL架构"></a>PL架构</h3><p>（1） CLB（可配置逻辑块）；</p>
+<p>（2） 36Kb容量的BRAM资源；</p>
+<p>（3） 数字信号处理DSP48E1资源；</p>
+<p>（4） 时钟管理单元；</p>
+<p>（5） 可配置的I/O资源；</p>
+<p>（6） 低功耗的吉比特收发器（仅Z-7030和Z-7045期间存在）；</p>
+<p>（7） 模拟-数字转换器（XADC）；</p>
+<p>（8） 用于PCI-E设计的集成接口模块。</p>
+<h2 id="SoC内部的互联结构"><a href="#SoC内部的互联结构" class="headerlink" title="SoC内部的互联结构"></a>SoC内部的互联结构</h2><h3 id="PS内模块的互联"><a href="#PS内模块的互联" class="headerlink" title="PS内模块的互联"></a>PS内模块的互联</h3><p>主要包含OCM互联单元和中央互联单元。</p>
+<p>（1） OCM互联</p>
+<p>1.提供来自中央互联和PL的访问，它用于对256Kb OCM的访问。</p>
+<p>2.CPU和ACP接口。通过SCU访问OCM时，有最低的延迟。</p>
+<p>（2） 中央互联</p>
+<p>1.中央互联为64位宽度，通过它可以将IO端口和DMA控制器连接到2.DDR存储器控制器和OCM。此外，可以连接到用于互联PL逻辑的AXI_GP接口。</p>
+<p>3.用于将PS内的主设备与IO端口连接在一起。</p>
+<h3 id="PS-PL接口"><a href="#PS-PL接口" class="headerlink" title="PS-PL接口"></a>PS-PL接口</h3><p>PS和PL之间提供了两种类型的接口。</p>
+<p>（1） 功能接口</p>
+<p>包含AXI互联，用于大多数I/O外设、中断、DMA流控制、时钟和调试接口的扩展MIO接口（EMIO）。这些信号用于连接PL内用户设计的IP模块。</p>
+<p>（2） 配置信号</p>
+<p>PCAP（包含处理器配置访问端口）、配置状态、单个事件翻转和编程/完成/初始化。在PL配置块内的这些信号连接到固定的信号，用于PS控制。</p>
+<h2 id="Zynq启动过程"><a href="#Zynq启动过程" class="headerlink" title="Zynq启动过程"></a>Zynq启动过程</h2><h3 id="配置过程"><a href="#配置过程" class="headerlink" title="配置过程"></a>配置过程</h3><p>有两个主要模块用于控制配置过程：</p>
+<p>（1） BootROM。静态存储器块，当上电复位和暖复位后，由双核Cortex-A9 CPU执行它。</p>
+<p>（2） 设备配置单元（DevC）用于控制JTAC调试访问和提供连接到AES、HMAC和PCAP的接口。用于实现对SoC内PL的配置及数据解密。</p>
+<p>配置过程包含三个阶段：</p>
+<p>（1） 控制初始设备的启动。处理器执行用户不可修改的代码，固化在SoC内的BootROM中。</p>
+<p>（2） 通常执行第一级启动引导程序，也可以是任何用户控制的代码。</p>
+<p>（3） 通常执行用户自己编写的软件。也可以是第二级的启动引导程序。该阶段完全是在用户控制下实现。</p>
+<p>另外，还需要满足供电、时钟和复位的指标。</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>BootROM支持来自五种不同类型从设备接口的配置。</p>
+<p>（1）四-SPI Flash</p>
+<p>（2）NAND Flash</p>
+<p>（3）NOR Flash</p>
+<p>（4）JTAG</p>
+<p>在选择JTAG启动时，在cpu禁止访问所有与安全相关的项及使能JTAG端口后，SoC立即停止运行CPU。通过JTAG端口，在唤醒CPU和继续启动过程前，用户负责将启动镜像下载到SoC的OCM RAM或外部DDR存储器中。</p>
+<p>（4） SD卡</p>
+<p>启动特性包括：1.支持从标准的SD或SDHC卡启动；</p>
+<p>​       2.支持FAT32用于保存最初的镜像；</p>
+<p>​       3.最大容量为32GB。</p>
+<p>步骤：1.初始化MIO引脚；</p>
+<p>   2.当PS_CLK的时钟频率为33.333MHz时，将SD卡时钟频率设置为226KHz；</p>
+<p>   3.从SD卡文件系统的根目录读取BOOT.BIN，然后将其复制到SoC内的OCM RAM中，并且解析所要求的BootROM头部信息。</p>
+<p>   4.从OCM的起始部分，开始执行软件代码。</p>
+<h3 id="BOOT-BIN的生成方式"><a href="#BOOT-BIN的生成方式" class="headerlink" title="BOOT.BIN的生成方式"></a>BOOT.BIN的生成方式</h3><p>1.选择新建一个自己的BIF文件create new BIF file；</p>
+<p>2.点击下面的Add，弹出窗口；</p>
+<p>3.点击Browse选择生成的fsbl.elf文件；</p>
+<p>4.然后点击OK，第一个boot image partition已经添加完成；</p>
+<p>5.根据上述步骤添加第二个boot image partition，选择u-boot.elf文件；</p>
+<p>6.添加完成后，将多余的文件partition删除，选择create image生成BOOT.BIN。</p>
+<h3 id="u-boot"><a href="#u-boot" class="headerlink" title="u-boot"></a>u-boot</h3><p>是一个主要用于嵌入式系统的引导加载程序，在操作系统运行前执行，一般用于初始化硬件设备。</p>
+<h2 id="DDR"><a href="#DDR" class="headerlink" title="DDR"></a>DDR</h2><p>DDR SDRAM为双倍速率同步动态随机存储器，DDR即为双倍速率，SDRAM为同步动态随机存储器。一般用于RAM。</p>
+<h2 id="Flash存储器"><a href="#Flash存储器" class="headerlink" title="Flash存储器"></a>Flash存储器</h2><p>是一种非易失性存储器。一般用于ROM。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2021/05/27/Zynq%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/" class="archive-article-date">
-  	<time datetime="2021-04-23T03:34:46.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-23</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">二叉树简单整理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%AE%80%E5%8D%95%E6%95%B4%E7%90%86/">二叉树简单整理</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/%E9%9D%A2%E7%BB%8F%E9%A2%98%E7%9B%AE%E6%B1%87%E6%80%BB/" class="archive-article-date">
-  	<time datetime="2021-04-22T06:31:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/%E9%9D%A2%E7%BB%8F%E9%A2%98%E7%9B%AE%E6%B1%87%E6%80%BB/">面经题目汇总</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/hello-world/" class="archive-article-date">
-  	<time datetime="2021-04-22T06:30:42.858Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/hello-world/">Hello World</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2021/04/22/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
-  	<time datetime="2021-04-22T05:49:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2021/04/22/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -313,8 +404,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
